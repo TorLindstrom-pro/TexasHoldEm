@@ -1,4 +1,4 @@
-﻿namespace TexasHoldEm;
+﻿namespace TexasHoldEm.Hands;
 
 public class Nothing : Hand
 {

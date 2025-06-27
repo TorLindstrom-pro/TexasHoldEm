@@ -1,19 +1,19 @@
-﻿namespace TexasHoldEm;
+﻿namespace TexasHoldEm.Hands;
 
-public class TwoPair : Hand
+public class Pairs : Hand
 {
 	public override bool Matching(IEnumerable<Card> cards) => cards
 		.Select(card => card.Value)
 		.GroupBy(card => card)
-		.Count(group => group.Count() == 2) == 2;
+		.Any(group => group.Count() == 2);
 
 	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards) => (
-		"two pair",
+		"pair",
 		cards
 			.GroupBy(card => card.Value)
 			.OrderByDescending(card => card.Count())
 			.ThenByDescending(card => card.First().Order())
-			.Take(3)
+			.Take(4)
 			.Select(card => card.Key)
 			.ToArray());
 }

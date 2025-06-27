@@ -1,4 +1,6 @@
-﻿namespace TexasHoldEm;
+﻿using TexasHoldEm.Hands;
+
+namespace TexasHoldEm;
 
 public static class Kata
 {
