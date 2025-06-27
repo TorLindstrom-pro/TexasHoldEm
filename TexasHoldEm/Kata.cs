@@ -35,11 +35,11 @@ public static class Kata
 			.GetHand(orderedCards);
 	}
 
-	public static Hand[] Hands { get; set; } =
-	{
+	private static Hand[] Hands { get; } =
+	[
 		Pairs,
 		Nothing
-	};
+	];
 }
 
 public class Hand(
