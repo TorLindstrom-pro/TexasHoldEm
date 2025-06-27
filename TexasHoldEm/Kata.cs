@@ -4,6 +4,7 @@ public static class Kata
 {
 	private static Hand[] Hands { get; } =
 	[
+		new ThreeOfAKind(),
 		new TwoPair(),
 		new Pairs(),
 		new Nothing()

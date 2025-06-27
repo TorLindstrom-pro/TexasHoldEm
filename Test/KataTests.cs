@@ -38,4 +38,15 @@ public class KataTests
         Assert.Equal("two pair", type);
         Assert.Equal(new[] {"6", "2", "J"}, ranks);
     }
+
+    [Fact]
+    public void ThreeOfAKind()
+    {
+        // Act
+        var (type, ranks) = Kata.Hand(["2♠", "J♦"], ["2♣", "5♥", "10♥", "2♥", "6♦"]);
+        
+        // Assert
+        Assert.Equal("three-of-a-kind", type);
+        Assert.Equal(new[] {"2", "J", "10"}, ranks);
+    }
 }
