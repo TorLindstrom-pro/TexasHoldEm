@@ -27,4 +27,15 @@ public class KataTests
         Assert.Equal("pair", type);
         Assert.Equal(new[] {"2", "J", "10", "6"}, ranks);
     }
+
+    [Fact]
+    public void TwoPairs()
+    {
+        // Act
+        var (type, ranks) = Kata.Hand(["2♠", "6♦"], ["J♣", "5♥", "10♥", "2♥", "6♦"]);
+        
+        // Assert
+        Assert.Equal("two pair", type);
+        Assert.Equal(new[] {"6", "2", "J"}, ranks);
+    }
 }
