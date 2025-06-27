@@ -1,9 +1,7 @@
 ﻿namespace TexasHoldEm;
 
-public class Hand(
-	Func<IEnumerable<Card>, bool> matching,
-	Func<IEnumerable<Card>, (string type, string[] ranks)> getHand)
+public abstract class Hand
 {
-	public Func<IEnumerable<Card>, bool> Matching { get; } = matching;
-	public Func<IEnumerable<Card>, (string type, string[] ranks)> GetHand { get; } = getHand;
+	public abstract bool Matching(IEnumerable<Card> cards);
+	public abstract (string type, string[] ranks) GetHand(IEnumerable<Card> cards);
 }
