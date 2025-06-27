@@ -7,11 +7,41 @@ public static class Kata
 		var orderedCards = holeCards
 			.Concat(communityCards)
 			.Select(card => new Card(card))
-			.OrderByDescending(card => card.Order())
-			.Take(5)
-			.Select(card => card.Value)
 			.ToArray();
-		
-		return ("nothing", orderedCards);
+
+		return Hands
+			.First(hand => hand.Matching(orderedCards))
+			.GetHand(orderedCards);
 	}
+
+	public static Hand[] Hands { get; set; } =
+	{
+		new Hand(cards => cards
+				.Select(card => card.Value)
+				.GroupBy(card => card)
+				.Any(group => group.Count() == 2),
+			cards => ("pair", cards
+				.GroupBy(card => card.Value)
+				.OrderByDescending(card => card.Count())
+				.ThenByDescending(card => card.First().Order())
+				.Take(4)
+				.Select(card => card.Key)
+				.ToArray())),
+		new Hand(_ => true,
+			cards => (
+				"nothing",
+				cards
+					.OrderByDescending(card => card.Order())
+					.Take(5)
+					.Select(card => card.Value)
+					.ToArray()))
+	};
+}
+
+public class Hand(
+	Func<IEnumerable<Card>, bool> matching,
+	Func<IEnumerable<Card>, (string type, string[] ranks)> getHand)
+{
+	public Func<IEnumerable<Card>, bool> Matching { get; } = matching;
+	public Func<IEnumerable<Card>, (string type, string[] ranks)> GetHand { get; } = getHand;
 }
