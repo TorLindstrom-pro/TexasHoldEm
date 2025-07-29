@@ -82,4 +82,15 @@ public class KataTests
 		Assert.Equal("full house", type);
 		Assert.Equal(new[] { "2", "2", "2", "3", "3" }, ranks);
 	}
+
+	[Fact]
+	public void FourOfAKind()
+	{
+		// Act
+		var (type, ranks) = Kata.Hand(["2♥", "2♦"], ["3♣", "5♥", "10♥", "2♣", "2♠"]);
+
+		// Assert
+		Assert.Equal("four-of-a-kind", type);
+		Assert.Equal(new[] { "2", "2", "2", "2", "10" }, ranks);
+	}
 }
