@@ -9,16 +9,7 @@ public class Straight : Hand
 			.DistinctBy(card => card.Value)
 			.ToList();
 
-		return distinct
-			.Any(card =>
-			{
-				var indexOf = distinct.IndexOf(card) + 4;
-
-				if (indexOf < distinct.Count)
-					return distinct[indexOf].Order() == card.Order() - 4;
-
-				return false;
-			});
+		return distinct.Any(card => AreNextCardsInSequence(distinct, card));
 	}
 
 	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards)
@@ -29,15 +20,7 @@ public class Straight : Hand
 			.ToList();
 
 		var start = distinct
-			.FindIndex(card =>
-			{
-				var indexOf = distinct.IndexOf(card) + 4;
-
-				if (indexOf < distinct.Count)
-					return distinct[indexOf].Order() == card.Order() - 4;
-
-				return false;
-			});
+			.FindIndex(card => AreNextCardsInSequence(distinct, card));
 
 		var hand = distinct
 			.GetRange(start, 5)
@@ -45,5 +28,15 @@ public class Straight : Hand
 			.ToArray();
 		
 		return ("straight", hand);
+	}
+
+	private static bool AreNextCardsInSequence(List<Card> distinct, Card card)
+	{
+		var indexOf = distinct.IndexOf(card) + 4;
+
+		if (indexOf < distinct.Count)
+			return distinct[indexOf].Order() == card.Order() - 4;
+
+		return false;
 	}
 }
