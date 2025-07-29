@@ -6,6 +6,7 @@ public static class Kata
 {
 	private static Hand[] Hands { get; } =
 	[
+		new Flush(),
 		new Straight(),
 		new ThreeOfAKind(),
 		new TwoPair(),
