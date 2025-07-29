@@ -93,4 +93,15 @@ public class KataTests
 		Assert.Equal("four-of-a-kind", type);
 		Assert.Equal(new[] { "2", "2", "2", "2", "10" }, ranks);
 	}
+
+	[Fact]
+	public void StraightFlush()
+	{
+		// Act
+		var (type, ranks) = Kata.Hand(["2♥", "3♥"], ["6♥", "5♥", "4♥", "2♣", "2♠"]);
+
+		// Assert
+		Assert.Equal("straight flush", type);
+		Assert.Equal(new[] { "6", "5", "4", "3", "2" }, ranks);
+	}
 }
