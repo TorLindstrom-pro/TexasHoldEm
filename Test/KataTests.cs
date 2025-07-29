@@ -101,7 +101,7 @@ public class KataTests
 		var (type, ranks) = Kata.Hand(["2♥", "3♥"], ["6♥", "5♥", "4♥", "2♣", "2♠"]);
 
 		// Assert
-		Assert.Equal("straight flush", type);
+		Assert.Equal("straight-flush", type);
 		Assert.Equal(new[] { "6", "5", "4", "3", "2" }, ranks);
 	}
 }

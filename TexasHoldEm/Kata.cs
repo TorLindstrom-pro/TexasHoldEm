@@ -77,7 +77,7 @@ public class StraightFlush : Hand
 			.Take(5)
 			.ToArray();
 
-		return ("straight flush", hand);
+		return ("straight-flush", hand);
 	}
 
 	private static bool AreNextCardsInSequence(List<Card> distinct, Card card)
