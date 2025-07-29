@@ -71,4 +71,15 @@ public class KataTests
 		Assert.Equal("flush", type);
 		Assert.Equal(new[] { "10", "5", "3", "2", "2" }, ranks);
 	}
+
+	[Fact]
+	public void FullHouse()
+	{
+		// Act
+		var (type, ranks) = Kata.Hand(["2♥", "3♦"], ["3♣", "5♥", "10♥", "2♥", "2♦"]);
+
+		// Assert
+		Assert.Equal("full house", type);
+		Assert.Equal(new[] { "2", "2", "2", "3", "3" }, ranks);
+	}
 }
