@@ -80,7 +80,7 @@ public class KataTests
 
 		// Assert
 		Assert.Equal("full house", type);
-		Assert.Equal(new[] { "2", "2", "2", "3", "3" }, ranks);
+		Assert.Equal(new[] { "2", "3" }, ranks);
 	}
 
 	[Fact]

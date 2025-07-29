@@ -137,7 +137,8 @@ public class FullHouse : Hand
 			.ThenByDescending(group => group.First().Order())
 			.SelectMany(group => group)
 			.Select(card => card.Value)
-			.Take(5)
+			.Distinct()
+			.Take(2)
 			.ToArray();
 
 		return ("full house", hand);
