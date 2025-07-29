@@ -107,7 +107,8 @@ public class FourOfAKind : Hand
 			.ThenByDescending(group => group.First().Order())
 			.SelectMany(group => group)
 			.Select(card => card.Value)
-			.Take(5)
+			.Distinct()
+			.Take(2)
 			.ToArray();
 
 		return ("four-of-a-kind", hand);

@@ -91,7 +91,7 @@ public class KataTests
 
 		// Assert
 		Assert.Equal("four-of-a-kind", type);
-		Assert.Equal(new[] { "2", "2", "2", "2", "10" }, ranks);
+		Assert.Equal(new[] { "2", "10" }, ranks);
 	}
 
 	[Fact]
