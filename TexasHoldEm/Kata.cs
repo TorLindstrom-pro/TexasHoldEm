@@ -59,7 +59,7 @@ public class StraightFlush : Hand
 		cards
 			.GroupBy(card => card.Suit)
 			.Select(group => group
-				.OrderByDescending(card => card.Value)
+				.OrderByDescending(card => card.Order())
 				.ToList())
 			.Any(group => group
 				.Any(card => AreNextCardsInSequence(group.ToList(), card)));
@@ -69,7 +69,7 @@ public class StraightFlush : Hand
 		var hand = cards
 			.GroupBy(card => card.Suit)
 			.Select(group => group
-				.OrderByDescending(card => card.Value)
+				.OrderByDescending(card => card.Order())
 				.ToList())
 			.First(group => group
 				.Any(card => AreNextCardsInSequence(group, card)))
