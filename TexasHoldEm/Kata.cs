@@ -36,8 +36,8 @@ public abstract class Hand
 
 public class Card(string card)
 {
-	public string Value { get; set; } = card[..^1];
-	public char Suit { get; set; } = card[^1];
+	public string Value { get; } = card[..^1];
+	public char Suit { get; } = card[^1];
 	
 	public int Order() =>
 		Value switch
