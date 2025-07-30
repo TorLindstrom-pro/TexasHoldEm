@@ -23,6 +23,7 @@ public static class Kata
 		var cards = holeCards
 			.Concat(communityCards)
 			.Select(card => new Card(card))
+			.OrderByDescending(card => card.Order())
 			.ToArray();
 
 		return Hands
@@ -58,9 +59,7 @@ public class StraightFlush : Hand
 	public override bool Matching(IEnumerable<Card> cards) =>
 		cards
 			.GroupBy(card => card.Suit)
-			.Select(group => group
-				.OrderByDescending(card => card.Order())
-				.ToList())
+			.Select(group => group.ToList())
 			.Any(group => group
 				.Any(card => AreNextCardsInSequence(group.ToList(), card)));
 
@@ -68,9 +67,7 @@ public class StraightFlush : Hand
 	{
 		var suit = cards
 			.GroupBy(card => card.Suit)
-			.Select(group => group
-				.OrderByDescending(card => card.Order())
-				.ToList())
+			.Select(group => group.ToList())
 			.First(group => group
 				.Any(card => AreNextCardsInSequence(group, card)));
 
@@ -109,7 +106,6 @@ public class FourOfAKind : Hand
 			.GroupBy(card => card.Value)
 			.ToList()
 			.OrderByDescending(group => group.Count() == 4)
-			.ThenByDescending(group => group.First().Order())
 			.SelectMany(group => group)
 			.Select(card => card.Value)
 			.Distinct()
@@ -140,7 +136,6 @@ public class FullHouse : Hand
 			.GroupBy(card => card.Value)
 			.ToList()
 			.OrderByDescending(group => group.Count())
-			.ThenByDescending(group => group.First().Order())
 			.SelectMany(group => group)
 			.Select(card => card.Value)
 			.Distinct()
@@ -163,7 +158,6 @@ public class Flush : Hand
 		var hand = cards
 			.GroupBy(card => card.Suit)
 			.Single(group => group.Count() >= 5)
-			.OrderByDescending(card => card.Order())
 			.Take(5)
 			.Select(card => card.Value)
 			.ToArray();
@@ -177,7 +171,6 @@ public class Straight : Hand
 	public override bool Matching(IEnumerable<Card> cards)
 	{
 		var distinct = cards
-			.OrderByDescending(card => card.Order())
 			.DistinctBy(card => card.Order())
 			.ToList();
 
@@ -187,7 +180,6 @@ public class Straight : Hand
 	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards)
 	{
 		var distinct = cards
-			.OrderByDescending(card => card.Order())
 			.DistinctBy(card => card.Order())
 			.ToList();
 
@@ -225,7 +217,6 @@ public class ThreeOfAKind : Hand
 		cards
 			.GroupBy(card => card.Value)
 			.OrderByDescending(card => card.Count())
-			.ThenByDescending(card => card.First().Order())
 			.Take(3)
 			.Select(card => card.Key)
 			.ToArray());
@@ -243,13 +234,11 @@ public class TwoPair : Hand
 		var pairs = cards
 			.GroupBy(card => card.Value)
 			.OrderByDescending(card => card.Count())
-			.ThenByDescending(card => card.First().Order())
 			.Take(2)
 			.Select(card => card.First())
 			.Distinct();
 
 		var single = cards
-			.OrderByDescending(card => card.Order())
 			.Where(card => !pairs
 				.Select(card1 => card1.Order())
 				.Contains(card.Order()))
@@ -278,7 +267,6 @@ public class Pairs : Hand
 		cards
 			.GroupBy(card => card.Value)
 			.OrderByDescending(card => card.Count())
-			.ThenByDescending(card => card.First().Order())
 			.Take(4)
 			.Select(card => card.Key)
 			.ToArray());
@@ -291,7 +279,6 @@ public class Nothing : Hand
 	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards) => (
 		"nothing",
 		cards
-			.OrderByDescending(card => card.Order())
 			.Take(5)
 			.Select(card => card.Value)
 			.ToArray());
