@@ -233,15 +233,32 @@ public class TwoPair : Hand
 		.GroupBy(card => card)
 		.Count(group => group.Count() == 2) >= 2;
 
-	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards) => (
-		"two pair",
-		cards
+	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards)
+	{
+		var pairs = cards
 			.GroupBy(card => card.Value)
 			.OrderByDescending(card => card.Count())
 			.ThenByDescending(card => card.First().Order())
-			.Take(3)
-			.Select(card => card.Key)
-			.ToArray());
+			.Take(2)
+			.Select(card => card.First())
+			.Distinct();
+
+		var single = cards
+			.OrderByDescending(card => card.Order())
+			.Where(card => !pairs
+				.Select(card1 => card1.Order())
+				.Contains(card.Order()))
+			.Take(1);
+		
+		var hand = pairs
+			.Concat(single)
+			.Select(card => card.Value)
+			.ToArray();
+		
+		return (
+			"two pair",
+			hand);
+	}
 }
 
 public class Pairs : Hand
