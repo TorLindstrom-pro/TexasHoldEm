@@ -173,7 +173,7 @@ public class Straight : Hand
 	{
 		var distinct = cards
 			.OrderByDescending(card => card.Order())
-			.DistinctBy(card => card.Value)
+			.DistinctBy(card => card.Order())
 			.ToList();
 
 		return distinct.Any(card => AreNextCardsInSequence(distinct, card));
