@@ -98,10 +98,10 @@ public class KataTests
 	public void StraightFlush()
 	{
 		// Act
-		var (type, ranks) = Kata.Hand(["Q♥", "10♥"], ["J♥", "9♥", "8♥", "2♣", "2♠"]);
+		var (type, ranks) = Kata.Hand(["7♠", "A♠"], ["10♠", "J♠", "8♠", "8♦", "9♠"]);
 
 		// Assert
 		Assert.Equal("straight-flush", type);
-		Assert.Equal(new[] { "Q", "J", "10", "9", "8" }, ranks);
+		Assert.Equal(new[] { "J", "10", "9", "8", "7" }, ranks);
 	}
 }

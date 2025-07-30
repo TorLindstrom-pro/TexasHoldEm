@@ -66,15 +66,20 @@ public class StraightFlush : Hand
 
 	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards)
 	{
-		var hand = cards
+		var suit = cards
 			.GroupBy(card => card.Suit)
 			.Select(group => group
 				.OrderByDescending(card => card.Order())
 				.ToList())
 			.First(group => group
-				.Any(card => AreNextCardsInSequence(group, card)))
+				.Any(card => AreNextCardsInSequence(group, card)));
+
+		var startOfStraight = suit
+			.FindIndex(card => AreNextCardsInSequence(suit, card));
+
+		var hand = suit
+			.GetRange(startOfStraight, 5)
 			.Select(card => card.Value)
-			.Take(5)
 			.ToArray();
 
 		return ("straight-flush", hand);
