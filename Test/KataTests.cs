@@ -54,11 +54,11 @@ public class KataTests
 	public void Straight()
 	{
 		// Act
-		var (type, ranks) = Kata.Hand(["2♠", "4♦"], ["3♣", "5♥", "10♥", "2♥", "6♦"]);
+		var (type, ranks) = Kata.Hand(["8♥", "A♠"], ["10♠", "Q♣", "J♣", "Q♥", "K♣"]);
 
 		// Assert
 		Assert.Equal("straight", type);
-		Assert.Equal(new[] { "6", "5", "4", "3", "2" }, ranks);
+		Assert.Equal(new[] { "A", "K", "Q", "J", "10" }, ranks);
 	}
 
 	[Fact]

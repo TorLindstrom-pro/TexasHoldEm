@@ -183,7 +183,7 @@ public class Straight : Hand
 	{
 		var distinct = cards
 			.OrderByDescending(card => card.Order())
-			.Distinct()
+			.DistinctBy(card => card.Order())
 			.ToList();
 
 		var start = distinct
