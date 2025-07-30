@@ -258,8 +258,7 @@ public class TwoPair : Hand
 public class Pairs : Hand
 {
 	public override bool Matching(IEnumerable<Card> cards) => cards
-		.Select(card => card.Value)
-		.GroupBy(card => card)
+		.GroupBy(card => card.Value)
 		.Any(group => group.Count() == 2);
 
 	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards) => (
