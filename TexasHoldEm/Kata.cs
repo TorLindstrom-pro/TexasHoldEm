@@ -24,7 +24,7 @@ public static class Kata
 			.Concat(communityCards)
 			.Select(card => new Card(card))
 			.OrderByDescending(card => card.Order())
-			.ToArray();
+			.ToList();
 
 		return Hands
 			.First(hand => hand.Matching(cards))
@@ -34,8 +34,8 @@ public static class Kata
 
 public abstract class Hand
 {
-	public abstract bool Matching(IEnumerable<Card> cards);
-	public abstract (string type, string[] ranks) GetHand(IEnumerable<Card> cards);
+	public abstract bool Matching(List<Card> cards);
+	public abstract (string type, string[] ranks) GetHand(List<Card> cards);
 }
 
 public class Card(string card)
@@ -56,14 +56,14 @@ public class Card(string card)
 
 public class StraightFlush : Hand
 {
-	public override bool Matching(IEnumerable<Card> cards) =>
+	public override bool Matching(List<Card> cards) =>
 		cards
 			.GroupBy(card => card.Suit)
 			.Select(group => group.ToList())
 			.Any(group => group
 				.Any(card => AreNextCardsInSequence(group.ToList(), card)));
 
-	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards)
+	public override (string type, string[] ranks) GetHand(List<Card> cards)
 	{
 		var suit = cards
 			.GroupBy(card => card.Suit)
@@ -95,12 +95,12 @@ public class StraightFlush : Hand
 
 public class FourOfAKind : Hand
 {
-	public override bool Matching(IEnumerable<Card> cards) =>
+	public override bool Matching(List<Card> cards) =>
 		cards
 			.GroupBy(card => card.Value)
 			.Any(group => group.Count() == 4);
 
-	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards)
+	public override (string type, string[] ranks) GetHand(List<Card> cards)
 	{
 		var hand = cards
 			.GroupBy(card => card.Value)
@@ -118,7 +118,7 @@ public class FourOfAKind : Hand
 
 public class FullHouse : Hand
 {
-	public override bool Matching(IEnumerable<Card> cards)
+	public override bool Matching(List<Card> cards)
 	{
 		var groupsByValue = cards
 			.GroupBy(card => card.Value)
@@ -130,7 +130,7 @@ public class FullHouse : Hand
 		return twoOrMore >= 2 && threeOrMore >= 1;
 	}
 
-	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards)
+	public override (string type, string[] ranks) GetHand(List<Card> cards)
 	{
 		var hand = cards
 			.GroupBy(card => card.Value)
@@ -148,12 +148,12 @@ public class FullHouse : Hand
 
 public class Flush : Hand
 {
-	public override bool Matching(IEnumerable<Card> cards) =>
+	public override bool Matching(List<Card> cards) =>
 		cards
 			.GroupBy(card => card.Suit)
 			.Any(group => group.Count() >= 5);
 
-	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards)
+	public override (string type, string[] ranks) GetHand(List<Card> cards)
 	{
 		var hand = cards
 			.GroupBy(card => card.Suit)
@@ -168,7 +168,7 @@ public class Flush : Hand
 
 public class Straight : Hand
 {
-	public override bool Matching(IEnumerable<Card> cards)
+	public override bool Matching(List<Card> cards)
 	{
 		var distinct = cards
 			.DistinctBy(card => card.Order())
@@ -177,7 +177,7 @@ public class Straight : Hand
 		return distinct.Any(card => AreNextCardsInSequence(distinct, card));
 	}
 
-	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards)
+	public override (string type, string[] ranks) GetHand(List<Card> cards)
 	{
 		var distinct = cards
 			.DistinctBy(card => card.Order())
@@ -207,12 +207,12 @@ public class Straight : Hand
 
 public class ThreeOfAKind : Hand
 {
-	public override bool Matching(IEnumerable<Card> cards) => cards
+	public override bool Matching(List<Card> cards) => cards
 		.Select(card => card.Value)
 		.GroupBy(card => card)
 		.Any(group => group.Count() == 3);
 
-	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards) => (
+	public override (string type, string[] ranks) GetHand(List<Card> cards) => (
 		"three-of-a-kind",
 		cards
 			.GroupBy(card => card.Value)
@@ -224,12 +224,12 @@ public class ThreeOfAKind : Hand
 
 public class TwoPair : Hand
 {
-	public override bool Matching(IEnumerable<Card> cards) => cards
+	public override bool Matching(List<Card> cards) => cards
 		.Select(card => card.Value)
 		.GroupBy(card => card)
 		.Count(group => group.Count() == 2) >= 2;
 
-	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards)
+	public override (string type, string[] ranks) GetHand(List<Card> cards)
 	{
 		var pairs = cards
 			.GroupBy(card => card.Value)
@@ -257,11 +257,11 @@ public class TwoPair : Hand
 
 public class Pairs : Hand
 {
-	public override bool Matching(IEnumerable<Card> cards) => cards
+	public override bool Matching(List<Card> cards) => cards
 		.GroupBy(card => card.Value)
 		.Any(group => group.Count() == 2);
 
-	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards) => (
+	public override (string type, string[] ranks) GetHand(List<Card> cards) => (
 		"pair",
 		cards
 			.GroupBy(card => card.Value)
@@ -273,9 +273,9 @@ public class Pairs : Hand
 
 public class Nothing : Hand
 {
-	public override bool Matching(IEnumerable<Card> cards) => true;
+	public override bool Matching(List<Card> cards) => true;
 
-	public override (string type, string[] ranks) GetHand(IEnumerable<Card> cards) => (
+	public override (string type, string[] ranks) GetHand(List<Card> cards) => (
 		"nothing",
 		cards
 			.Take(5)
