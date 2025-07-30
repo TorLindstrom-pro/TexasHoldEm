@@ -42,7 +42,7 @@ public class Card(string card)
 {
 	public string Value { get; } = card[..^1];
 	public char Suit { get; } = card[^1];
-	
+
 	public int Order() =>
 		Value switch
 		{
@@ -243,15 +243,13 @@ public class TwoPair : Hand
 				.Select(card1 => card1.Order())
 				.Contains(card.Order()))
 			.Take(1);
-		
+
 		var hand = pairs
 			.Concat(single)
 			.Select(card => card.Value)
 			.ToArray();
-		
-		return (
-			"two pair",
-			hand);
+
+		return ("two pair", hand);
 	}
 }
 
